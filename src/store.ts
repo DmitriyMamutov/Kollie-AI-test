@@ -17,12 +17,9 @@ interface KnowledgeBase {
 }
 
 interface Store {
-  count: number;
   knowledgeBases: KnowledgeBase[];
   currentPage: number;
   itemsPerPage: number;
-  increment: () => void;
-  decrement: () => void;
   addKnowledgeBase: (knowledgeBase: KnowledgeBase) => void;
   addItemToKnowledgeBase: (knowledgeBaseId: string, item: Item) => void;
   deleteItemFromKnowledgeBase: (knowledgeBaseId: string, itemId: string) => void;
@@ -32,12 +29,9 @@ interface Store {
 const useStore = create(
   persist<Store>(
     (set) => ({
-      count: 0,
       knowledgeBases: [],
       currentPage: 1,
       itemsPerPage: 5,
-      increment: () => set((state) => ({ count: state.count + 1 })),
-      decrement: () => set((state) => ({ count: state.count - 1 })),
       addKnowledgeBase: (knowledgeBase: KnowledgeBase) =>
         set((state) => ({
           knowledgeBases: [...state.knowledgeBases, knowledgeBase],
