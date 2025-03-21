@@ -1,42 +1,42 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-export interface Item {
+export interface IItem {
   id: string;
   name: string;
   type: 'text' | 'file';
 }
 
-interface KnowledgeBase {
+interface IKnowledgeBase {
   id: string;
   create_date: Date;
   name: string;
   total_items: number;
-  items: Item[];
+  items: IItem[];
   linked_agents: object[];
 }
 
-interface Store {
-  knowledgeBases: KnowledgeBase[];
+interface IStore {
+  knowledgeBases: IKnowledgeBase[];
   currentPage: number;
   itemsPerPage: number;
-  addKnowledgeBase: (knowledgeBase: KnowledgeBase) => void;
-  addItemToKnowledgeBase: (knowledgeBaseId: string, item: Item) => void;
+  addKnowledgeBase: (knowledgeBase: IKnowledgeBase) => void;
+  addItemToKnowledgeBase: (knowledgeBaseId: string, item: IItem) => void;
   deleteItemFromKnowledgeBase: (knowledgeBaseId: string, itemId: string) => void;
   setCurrentPage: (page: number) => void;
 }
 
 const useStore = create(
-  persist<Store>(
+  persist<IStore>(
     (set) => ({
       knowledgeBases: [],
       currentPage: 1,
       itemsPerPage: 5,
-      addKnowledgeBase: (knowledgeBase: KnowledgeBase) =>
+      addKnowledgeBase: (knowledgeBase: IKnowledgeBase) =>
         set((state) => ({
           knowledgeBases: [...state.knowledgeBases, knowledgeBase],
         })),
-      addItemToKnowledgeBase: (knowledgeBaseId: string, item: Item) =>
+      addItemToKnowledgeBase: (knowledgeBaseId: string, item: IItem) =>
         set((state) => {
           const updatedKnowledgeBases = state.knowledgeBases.map((kb) =>
             kb.id === knowledgeBaseId
